@@ -1,1 +1,44 @@
+name: Docker CI
 
+on:
+  workflow_dispatch:   # Manuele trigger
+
+jobs:
+  docker-build-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      
+      - name: Checkout calculator-app template
+        uses: Coderslab-core/action-checkout-and-move@v1
+        with:
+          repository: PXL-2TIN-DevOps-Resources/calculator-app-finished
+          dest-path: ./calculator-app
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      
+      - name: Docker Hub login
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      
+      - name: Build & Push Docker Image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./calculator-app
+          file: ./calculator-app/Dockerfile
+          push: true
+
+          
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/calculator-app:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/calculator-app:${{ github.ref_name }}
+
+      
+      - name: Docker Scout CVE Scan
+        uses: docker/scout-action@v1
+        with:
+          command: cves
+          image: ${{ secrets.DOCKERHUB_USERNAME }}/calculator-app:latest
