@@ -15,12 +15,12 @@ jobs:
           dest-path: ./calculator-app
           token: ${{ secrets.GITHUB_TOKEN }}
           
-      - name: Setup Node.js
+      - name: Setup Node.js environment
         uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Install dependencies
-        run: npm ci
+      - name: install npm
+        run: npm install
         working-directory: ./calculator-app
       - name: Run tests
         run: npm test
