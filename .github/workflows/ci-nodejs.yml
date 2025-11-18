@@ -19,23 +19,21 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          
       - name: Install dependencies
         run: npm ci
-        
+        working-directory: ./calculator-app
       - name: Run tests
         run: npm test
-        
+        working-directory: ./calculator-app
       - name: Run unit tests with coverage
         run: npm test -- --coverage
-        
+        working-directory: ./calculator-app
       - name: Code Coverage Report
         uses: mridang/action-test-reporter@v1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          coverage-file: ./coverage/clover.xml
-          working-directory: .
-        
-        
+          coverage-file: calculator-app/coverage/clover.xml
+          working-directory: ./calculator-app
+
 
     
