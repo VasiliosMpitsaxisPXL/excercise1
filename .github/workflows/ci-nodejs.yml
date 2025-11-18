@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout calculator-app template
-        uses: Coderslab-core/action-checkout-and-move@v2
+        uses: Coderslab-core/action-checkout-and-move@v1
         with:
           repository: PXL-2TIN-DevOps-Resources/calculator-app-finished
           dest-path: ./calculator-app
