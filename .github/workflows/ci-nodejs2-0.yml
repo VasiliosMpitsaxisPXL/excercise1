@@ -21,19 +21,19 @@ jobs:
       - name: install npm
         run: npm install
 
-        
       - name: Run tests
-        run: npm test
+        run: npm test -- --coverage --coverageReports=clover
 
-      - name: Run unit tests with coverage
-        run: npm test -- --coverage
-
-      - name: Code Coverage Report
-        uses: mridang/action-test-reporter@v1
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          coverage-file: calculator-app/coverage/clover.xml
-          working-directory: ./calculator-app
+      - name: Better Test Reports Action
+        uses: mridang/action-test-reporter@v1.6.0
+        with: 
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          coverage-file: coverage/clover.xml
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v5.0.0
+        with: 
+          name: test_results
+          path: coverage/clover.xml
           
   code-quality:
     runs-on: ubuntu-latest
